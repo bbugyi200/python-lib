@@ -22,6 +22,7 @@ XDG_PARAMS = [(x, Path(y)) for x, y in _XDG_PARAMS]
 
 @fixture(autouse=True)
 def setup_envvars() -> None:
+    """Configure environment variables before running XDG tests."""
     old_envvar_map = {}
     for key in [
         "XDG_DATA_HOME",
