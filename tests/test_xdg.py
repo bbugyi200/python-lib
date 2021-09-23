@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from bugyi import xdg
+from bugyi.lib import xdg
 
 
 _xdg_params = [
