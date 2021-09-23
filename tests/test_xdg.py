@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 
 from pytest import fixture, mark
-from typeguard import typechecked
 
 from bugyi.lib import xdg
 
@@ -40,7 +39,6 @@ def setup_envvars() -> None:
         os.environ[key] = old_envvar_map[key]
 
 
-@typechecked
 @params("key, expected", XDG_PARAMS)
 def test_xdg_init(key: xdg.XDG_Type, expected: Path) -> None:
     """Test the xdg.init_full_dir() function."""
@@ -50,7 +48,6 @@ def test_xdg_init(key: xdg.XDG_Type, expected: Path) -> None:
     os.rmdir(full_dir)
 
 
-@typechecked
 @params("key, expected", XDG_PARAMS)
 def test_xdg_get_base_dir(key: xdg.XDG_Type, expected: Path) -> None:
     """Test the xdg.get_base_dir() function."""
