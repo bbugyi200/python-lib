@@ -16,5 +16,4 @@ def pytest_configure(config: Config) -> None:
     """
     del config
 
-    install_import_hook("tests")
     install_import_hook("bugyi.lib")

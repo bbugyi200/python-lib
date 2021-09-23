@@ -3,35 +3,55 @@
 import os
 from pathlib import Path
 
-import pytest
+from pytest import fixture, mark
+from typeguard import typechecked
 
 from bugyi.lib import xdg
 
 
-_xdg_params = [
-    ("config", "/home/bryan/.config"),
-    ("data", "/home/bryan/.local/share"),
-    ("runtime", "/run/user/1000"),
-    ("cache", "/home/bryan/.cache"),
+params = mark.parametrize
+
+_HOME = os.environ.get("HOME")
+_XDG_PARAMS = [
+    ("config", f"{_HOME}/.config"),
+    ("data", f"{_HOME}/.local/share"),
+    ("runtime", "/tmp"),
+    ("cache", f"{_HOME}/.cache"),
 ]
-xdg_params = [(x, Path(y)) for x, y in _xdg_params]
+XDG_PARAMS = [(x, Path(y)) for x, y in _XDG_PARAMS]
 
 
-@pytest.mark.parametrize("key, expected_part", xdg_params)
-def test_xdg_init(key: xdg.XDG_Type, expected_part: Path) -> None:
+@fixture(autouse=True)
+def setup_envvars() -> None:
+    old_envvar_map = {}
+    for key in [
+        "XDG_DATA_HOME",
+        "XDG_RUNTIME_DIR",
+        "XDG_CACHE_HOME",
+        "XDG_CONFIG_HOME",
+    ]:
+        if key in os.environ:
+            old_envvar_map[key] = os.environ[key]
+            del os.environ[key]
+
+    yield
+
+    for key in old_envvar_map:
+        os.environ[key] = old_envvar_map[key]
+
+
+@typechecked
+@params("key, expected", XDG_PARAMS)
+def test_xdg_init(key: xdg.XDG_Type, expected: Path) -> None:
     """Test the xdg.init_full_dir() function."""
-    expected = expected_part / "test_xdg"
-    assert expected == xdg.init_full_dir(key)
-    os.rmdir(expected)
+    full_dir = xdg.init_full_dir(key)
+    actual = full_dir.parent
+    assert expected == actual
+    os.rmdir(full_dir)
 
 
-@pytest.mark.parametrize("key, expected", xdg_params)
+@typechecked
+@params("key, expected", XDG_PARAMS)
 def test_xdg_get_base_dir(key: xdg.XDG_Type, expected: Path) -> None:
     """Test the xdg.get_base_dir() function."""
     assert expected == xdg.get_base_dir(key)
-
-
-def test_init_failure() -> None:
-    """Test that the xdg.init_full_dir() fails when given a bad argument."""
-    with pytest.raises(AssertionError):
-        xdg.init_full_dir("bad_key")  # type: ignore
