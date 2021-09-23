@@ -10,7 +10,7 @@ from bugyi.lib import xdg
 
 params = mark.parametrize
 
-_HOME = os.environ.get("HOME")
+_HOME = os.getenv("HOME")
 _XDG_PARAMS = [
     ("config", f"{_HOME}/.config"),
     ("data", f"{_HOME}/.local/share"),
