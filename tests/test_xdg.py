@@ -39,16 +39,19 @@ def setup_envvars() -> None:
         os.environ[key] = old_envvar_map[key]
 
 
-@params("key, expected", XDG_PARAMS)
+@params("key,expected", XDG_PARAMS)
 def test_xdg_init(key: xdg.XDG_Type, expected: Path) -> None:
     """Test the xdg.init_full_dir() function."""
     full_dir = xdg.init_full_dir(key)
     actual = full_dir.parent
+
     assert expected == actual
+    assert Path(full_dir).exists()
+
     os.rmdir(full_dir)
 
 
-@params("key, expected", XDG_PARAMS)
+@params("key,expected", XDG_PARAMS)
 def test_xdg_get_base_dir(key: xdg.XDG_Type, expected: Path) -> None:
     """Test the xdg.get_base_dir() function."""
     assert expected == xdg.get_base_dir(key)
