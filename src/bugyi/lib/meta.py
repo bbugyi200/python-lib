@@ -8,11 +8,8 @@ import inspect
 from os.path import abspath, isfile, realpath
 from pathlib import Path
 import sys
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, Callable, cast
 from warnings import warn
-
-
-_C = TypeVar("_C", bound=Callable)
 
 
 def cname(obj: object) -> str:
@@ -61,7 +58,7 @@ def scriptname(*, up: int = 0) -> str:
     return Path(frame.filename).stem
 
 
-def deprecated(func: _C, wmsg: str) -> _C:
+def deprecated(func: Callable, wmsg: str) -> Callable:
     """
     Used to deprecate @func after renaming it or moving it to a
     different module/package.
@@ -72,7 +69,7 @@ def deprecated(func: _C, wmsg: str) -> _C:
         warn(wmsg, category=BugyiDepreciationWarning, stacklevel=2)
         return func(*args, **kwargs)
 
-    return cast(_C, wrapper)
+    return wrapper
 
 
 class BugyiDepreciationWarning(Warning):
