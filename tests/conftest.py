@@ -18,8 +18,8 @@ def pytest_configure(config: Config) -> None:
 
         typeguard cannot check these packages because they are already imported
 
-        When trying to install an import hook for the 'tests' pacakge (i.e.
-        install_import_hook('tests')), it breaks pytest's assertion rewriting.
+        When trying to install an import hook for the 'tests' pacakge [i.e.
+        install_import_hook('tests')], it breaks pytest's assertion rewriting.
         See the following URL for more information:
 
         https://docs.pytest.org/en/stable/writing_plugins.html#assertion-rewriting
