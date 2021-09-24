@@ -140,14 +140,16 @@ def new_command_factory(
     description: str = None,
     **kwargs: Any,
 ) -> NewCommand:
-    """Returns a `new_command()` function that can be used to add sub-commands.
+    """Returns a `new_command()` function that can be used to add subcommands.
 
     Args:
-        parser: The argparse parser that we want to add sub-commands to.
+        parser: The argparse parser that we want to add subcommands to.
         dest: The attribute name that the subcommand name will be stored under
-          the Namespace object.
+          inside the Namespace object.
         required: Will this subcommand be required or optional?
         description: This argument describes what the subcommand is used for.
+        kwargs: These keyword arguments are relayed to the
+          ``parser.add_subparsers()`` function call.
     """
     subparsers = parser.add_subparsers(
         dest=dest, required=required, description=description, **kwargs

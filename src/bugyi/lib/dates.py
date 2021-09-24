@@ -16,7 +16,7 @@ def parse_date(date: DateLike) -> dt.date:
         date: The date string to parse.
 
     This function defaults to using dateutil.parser.parse(), but also accepts
-    the following special formats:
+    the following special formats for ``date``:
 
         @t | @today
             Today's date.
