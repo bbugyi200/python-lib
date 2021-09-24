@@ -42,4 +42,4 @@ def pytest_runtest_call(item: Item) -> None:
     # typechecked() decorator.
     test_func = getattr(item, "obj", None)
     if test_func is not None:
-        setattr(item, "obj", typechecked(test_func))
+        item.obj = typechecked(test_func)  # type: ignore[attr-defined]
