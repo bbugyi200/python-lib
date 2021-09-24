@@ -1,3 +1,5 @@
+"""Helper functions/classes related to dates/datetimes."""
+
 import datetime as dt
 import re
 from typing import List
@@ -8,6 +10,23 @@ from .types import DateLike, assert_never
 
 
 def parse_date(date: DateLike) -> dt.date:
+    """Parses a date string.
+
+    Args:
+        date: The date string to parse.
+
+    This function defaults to using dateutil.parser.parse(), but also accepts
+    the following special formats:
+
+        @t | @today
+            Today's date.
+
+        Nd
+            N days ago.
+
+        Nw
+            N weeks ago.
+    """
     if isinstance(date, str):
         date = date.lower()
 
@@ -37,6 +56,13 @@ def parse_date(date: DateLike) -> dt.date:
 
 
 def parse_daterange(daterange: str) -> List[dt.date]:
+    """Transforms a date range specifier into a list of sequential dates.
+
+    Args:
+        daterange: A string of the form START_DATE:END_DATE where both
+          START_DATE and END_DATE are any value that the parse_date() function
+          can parse.
+    """
     if ":" not in daterange:
         return [parse_date(daterange)]
     else:

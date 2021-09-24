@@ -3,14 +3,69 @@
 import argparse
 from dataclasses import dataclass
 import inspect
-from typing import Any, Iterable
+import sys
+from typing import Any, Callable, Iterable, Sequence, TypeVar
+
+from loguru import logger as log
 
 from .types import Protocol
 
 
+_T = TypeVar("_T")
+
+
+class MainType(Protocol):
+    """Type of the `main()` function returned by `main_factory()`."""
+
+    def __call__(self, argv: Sequence[str] = None) -> int:
+        """This method captures the `main()` function's signature."""
+
+
+def main_factory(
+    parse_cli_args: Callable[[Sequence[str]], _T], run: Callable[[_T], int]
+) -> MainType:
+    """
+    Returns a generic main() function to be used as a script's entry point.
+    """
+    from .logging import configure as configure_logging
+    from .meta import scriptname
+
+    def main(argv: Sequence[str] = None) -> int:
+        if argv is None:
+            argv = sys.argv
+
+        args = parse_cli_args(argv)
+
+        debug: bool = getattr(args, "debug", False)
+        verbose: int = getattr(args, "verbose", 0)
+        name = scriptname(up=1)
+
+        configure_logging(name, debug=debug, verbose=verbose)
+
+        log.trace("Trace mode has been enabled.")
+        log.debug("args = {!r}", args)
+
+        try:
+            status = run(args)
+        except KeyboardInterrupt:
+            print("Received SIGINT signal. Terminating {}...".format(name))
+            return 0
+        except Exception:
+            log.exception(
+                "An unrecoverable error has been raised. Terminating {}...",
+                name,
+            )
+            return 1
+        else:
+            return status
+
+    return main
+
+
 @dataclass(frozen=True)
 class Arguments:
-    debug: bool
+    """Default CLI arguments corresponding to ``ArgumentParser``."""
+
     verbose: int
 
 
@@ -30,12 +85,6 @@ def ArgumentParser(
 
     parser = argparse.ArgumentParser(  # type: ignore
         *args, description=description, **kwargs
-    )
-    parser.add_argument(
-        "-d",
-        "--debug",
-        action="store_true",
-        help="Enable debugging mode. DEPRECIATED: Use --verbose instead.",
     )
     parser.add_argument(
         "-v",
@@ -70,7 +119,9 @@ def _argparse_action_key(action: argparse.Action) -> str:
         return action.dest
 
 
-class _NewCommand(Protocol):
+class NewCommand(Protocol):
+    """Type of the function returned by `new_command_factory()`."""
+
     def __call__(
         self,
         name: str,
@@ -78,7 +129,7 @@ class _NewCommand(Protocol):
         help: str,  # pylint: disable=redefined-builtin
         **kwargs: Any,
     ) -> argparse.ArgumentParser:
-        pass
+        """This method captures the `new_command()` function's signature."""
 
 
 def new_command_factory(
@@ -88,7 +139,16 @@ def new_command_factory(
     required: bool = True,
     description: str = None,
     **kwargs: Any,
-) -> _NewCommand:
+) -> NewCommand:
+    """Returns a `new_command()` function that can be used to add sub-commands.
+
+    Args:
+        parser: The argparse parser that we want to add sub-commands to.
+        dest: The attribute name that the subcommand name will be stored under
+          the Namespace object.
+        required: Will this subcommand be required or optional?
+        description: This argument describes what the subcommand is used for.
+    """
     subparsers = parser.add_subparsers(
         dest=dest, required=required, description=description, **kwargs
     )

@@ -1,3 +1,5 @@
+import errno
+import os
 import sys
 import termios
 from textwrap import wrap
@@ -105,3 +107,28 @@ def box(title: str) -> str:
     middle = f"|          {title}          |"
     top = bottom = "+" + ("-" * (len(middle) - 2)) + "+"
     return f"{top}\n{middle}\n{bottom}"
+
+
+def create_dir(directory: str) -> None:
+    """Create directory if it does not already exist.
+
+    Args:
+        directory: The full directory path.
+    """
+    try:
+        os.makedirs(directory)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
+
+def mkfifo(fifo_path: str) -> None:
+    """Creates named pipe if it does not already exist.
+
+    Args:
+        fifo_path: The full file path where the named pipe will be created.
+    """
+    try:
+        os.mkfifo(fifo_path)
+    except OSError:
+        pass
