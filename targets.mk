@@ -25,7 +25,7 @@ endef
 define runtests
 	$(TOX) -e $(1) -- \
 		-vv \
-		--cov=. \
+		--cov=src/bugyi/lib \
 		--cov-config=setup.cfg \
 		--cov-fail-under=30 \
 		--cov-report=xml:coverage.xml \
