@@ -61,6 +61,6 @@ setup(
     test_suite="tests",
     tests_require=tests_require(),
     url="https://github.com/bbugyi200/python-lib",
-    use_scm_version={"fallback_version": "0.2.0"},
+    use_scm_version={"fallback_version": "0.2.1"},
     zip_safe=False,
 )
