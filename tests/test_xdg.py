@@ -37,8 +37,8 @@ def setup_envvars() -> Iterator[None]:
 
     yield
 
-    for key in old_envvar_map:
-        os.environ[key] = old_envvar_map[key]
+    for key, value in old_envvar_map.items():
+        os.environ[key] = value
 
 
 @params("key,expected", XDG_PARAMS)
