@@ -1,3 +1,76 @@
+"""Result Return Type / Error-Handling Implementation
+
+This module implements an error-handling model that is heavily influenced by
+the Rust programming language's Result type [1] and an article titled
+"Python: better typed than you think" [2]. This model is used as the default
+error-handling model in some modern programming languages (e.g. Go and Rust),
+but has also been used successfully for years by functional programming
+languages (e.g. Haskell).
+
+The model revolves around the use of the Result type, which, in turn, is
+always either an Ok instance or an Err instance.
+
+[1]: https://doc.rust-lang.org/std/result
+[2]: https://beepb00p.xyz/mypy-error-handling.html#coderef-throw_exc
+
+Examples:
+    Consider a function which has a known error-state. If an error does occur,
+    we want to propagate the error to the caller somehow. We can rely on
+    Python's built-in exceptions to handle this propagation, like so:
+
+        def do_stuff() -> str:
+            # do some stuff which sets the 'status' variable
+            if status == SUCCESS:
+                return "SUCCESS!"
+            else:
+                raise SomeError("<Error Context>")
+
+    This method couples the caller to the `do_stuff()` function's
+    implementation, however, since the caller MUST know that `do_stuff()` might
+    raise a SomeError exeption before calling `do_stuff()`. Furthermore, if the
+    caller does NOT handle this exception, there is no warning; SomeError will
+    continue to propagate up the call-stack until it crashes the program.
+
+    This module attempts to offer a safer approach. Using the `Result` return
+    type, we might define `do_stuff()` like this:
+
+        def do_stuff() -> Result[str, SomeError]:
+            # do some stuff which sets the 'status' variable
+            if status == SUCCESS:
+                return Ok("SUCCESS!")
+            else:
+                e = SomeError("<Error Context>")
+                return Err(e)
+
+    This approach has the benefit of being type-safe: A function that calls
+    `do_stuff()` MUST check for errors. This is enforced by type-checking tools
+    like mypy, but is also made fairly obvious to the caller given the return
+    type of `do_stuff()`. To demonstrate, let us now consider how a client
+    might go about calling `do_stuff()`:
+
+        def main() -> int:
+            msg_r = do_stuff()  # `msg_r` is short for `msg_result`
+            if isinstance(msg_r, Err):
+                e = msg_r.err()
+                logger.error("An error occurred while doing stuff: %r", e)
+                return 1
+
+            msg = msg_r.ok()
+            logger.info(msg)
+            return 0
+
+    Some might say a downside of this approach is that it requires you to write
+    a lot of boilerplate error-handling logic. I would argue that this is yet
+    another benefit of this approach, since dangerous code _should_ look
+    dangerous. With that said, if we just want to crash the program on error,
+    we could shorten the above `main()` function like so:
+
+        def main() -> int:
+            msg = do_stuff().unwrap()  # raises SomeError if an error occurs
+            logger.info(msg)
+            return 0
+"""
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from functools import wraps
@@ -27,56 +100,68 @@ class _ResultMixin(ABC, Generic[T, E]):
 
     @abstractmethod
     def err(self) -> Optional[E]:
-        pass
+        """Returns None if successful or an Exception type otherwise."""
 
     @abstractmethod
     def unwrap(self) -> T:
-        pass
+        """Returns real return type if successful or None otherwise."""
 
     @abstractmethod
     def unwrap_or(self, default: T) -> T:
-        pass
+        """Returns real return type if successful or ``default`` otherwise."""
 
     @abstractmethod
     def unwrap_or_else(self, op: Callable[[E], T]) -> T:
-        pass
+        """Returns real return type if successful or ``op(e)`` otherwise."""
 
 
 @dataclass(frozen=True)
 class Ok(_ResultMixin[T, E]):
+    """Ok result type.
+
+    A value that indicates success and which stores arbitrary data for the
+    return value.
+    """
+
     _value: T
 
     @staticmethod
-    def err() -> None:
+    def err() -> None:  # noqa: D102
         return None
 
-    def ok(self) -> T:
+    def ok(self) -> T:  # noqa: D102
         return self._value
 
-    def unwrap(self) -> T:
+    def unwrap(self) -> T:  # noqa: D102
         return self.ok()
 
-    def unwrap_or(self, default: T) -> T:
+    def unwrap_or(self, default: T) -> T:  # noqa: D102
         return self.ok()
 
-    def unwrap_or_else(self, op: Callable[[E], T]) -> T:
+    def unwrap_or_else(self, op: Callable[[E], T]) -> T:  # noqa: D102
         return self.ok()
 
 
 @dataclass(frozen=True)
 class Err(_ResultMixin[T, E]):
+    """Err result type.
+
+    A value that signifies failure and which stores arbitrary data for the
+    error.
+    """
+
     _error: E
 
-    def err(self) -> E:
+    def err(self) -> E:  # noqa: D102
         return self._error
 
-    def unwrap(self) -> NoReturn:
+    def unwrap(self) -> NoReturn:  # noqa: D102
         raise self.err()
 
-    def unwrap_or(self, default: T) -> T:
+    def unwrap_or(self, default: T) -> T:  # noqa: D102
         return default
 
-    def unwrap_or_else(self, op: Callable[[E], T]) -> T:
+    def unwrap_or_else(self, op: Callable[[E], T]) -> T:  # noqa: D102
         return op(self.err())
 
 
@@ -89,6 +174,16 @@ Result = Union[Ok[T, E], Err[T, E]]
 def return_lazy_result(
     func: Callable[..., Result[T, E]]
 ) -> Callable[..., "_LazyResult[T, E]"]:
+    """Converts the return type of a function from result to a "lazy" result.
+    
+    In order to fetch the real return type from lazy_result, you must call
+    lazy_result.result() or any other valid Result method [e.g.
+    lazy_result.unwrap()].
+
+    This decorator is useful when dealing with function's that return
+    Result[None, E], since it makes it harder to ignore potential errors.
+    """
+
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> _LazyResult[T, E]:
         return _LazyResult(func, *args, **kwargs)
