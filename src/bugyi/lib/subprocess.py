@@ -1,3 +1,5 @@
+"""Helper utilities related to the subprocess module and the shell."""
+
 import os
 import subprocess as sp
 from typing import Any, Iterable, List, Tuple
@@ -24,7 +26,7 @@ def safe_popen(
 
     ps = sp.Popen(cmd_list, **kwargs)
 
-    proc = DoneProcess(ps, cmd_list)
+    proc = _DoneProcess(ps, cmd_list)
     if ps.returncode != 0:
         return proc.to_error(up=up + 1)
 
@@ -48,12 +50,12 @@ def unsafe_popen(cmd_parts: Iterable[str], **kwargs: Any) -> Tuple[str, str]:
         kwargs["stderr"] = sp.PIPE
 
     ps = sp.Popen(cmd_list, **kwargs)
-    proc = DoneProcess(ps, cmd_list)
+    proc = _DoneProcess(ps, cmd_list)
 
     return (proc.out, proc.err)
 
 
-class DoneProcess:
+class _DoneProcess:
     def __init__(self, ps: sp.Popen, cmd_list: List[str]) -> None:
         self.ps = ps
         self.cmd_list = cmd_list
@@ -110,6 +112,7 @@ class StillAliveException(Exception):
 
 
 def command_exists(cmd: str) -> bool:
+    """Returns True iff the shell command ``cmd`` exists."""
     ps = sp.Popen(
         "hash {}".format(cmd), shell=True, stdout=sp.PIPE, stderr=sp.PIPE
     )
