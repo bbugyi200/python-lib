@@ -3,7 +3,6 @@
 import traceback
 from typing import Iterator, List, Optional
 
-from .io import efill, ewrap
 from .meta import Inspector, cname
 from .result import Err, Result
 from .types import E, T
@@ -43,6 +42,8 @@ class BugyiError(Exception):
         Format error to width.  If width is None, return string suitable for
         traceback.
         """
+        from .io import efill
+
         super_str = super().__str__()
 
         emsg = efill(super_str, width, indent=2)
@@ -67,6 +68,8 @@ class BugyiError(Exception):
         Return an _ErrorReport object formatting the current state of this
         BugyiError
         """
+        from .io import ewrap
+
         TITLE = cname(self)
         MIDDLE_MSG = "was the direct cause of"
 
