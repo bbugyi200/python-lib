@@ -13,3 +13,14 @@ Submodules
    :maxdepth: 4
 
    lib.cli
+   lib.core
+   lib.dates
+   lib.errors
+   lib.io
+   lib.logging
+   lib.meta
+   lib.result
+   lib.shell
+   lib.tools
+   lib.types
+   lib.xdg
