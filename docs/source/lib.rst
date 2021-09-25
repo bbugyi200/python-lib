@@ -17,7 +17,6 @@ Submodules
    lib.dates
    lib.errors
    lib.io
-   lib.logging
    lib.meta
    lib.result
    lib.shell
