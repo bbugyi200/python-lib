@@ -2,6 +2,7 @@
 
 import os
 from pathlib import Path
+from typing import Iterator
 
 from pytest import fixture, mark
 
@@ -21,7 +22,7 @@ XDG_PARAMS = [(x, Path(y)) for x, y in _XDG_PARAMS]
 
 
 @fixture(autouse=True)
-def setup_envvars() -> None:
+def setup_envvars() -> Iterator[None]:
     """Configure environment variables before running XDG tests."""
     old_envvar_map = {}
     for key in [
