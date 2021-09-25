@@ -4,20 +4,23 @@
 #
 #    "make update-requirements"
 #
-bugyi.lib==0.2.1
+bugyi.lib==0.3.0
     # via pylogutils
 colorama==0.4.4
     # via pylogutils
 importlib-metadata==4.8.1 ; python_version < "3.8"
-    # via -r requirements.in
-loguru==0.5.3
-    # via bugyi.lib
+    # via
+    #   -r requirements.in
+    #   bugyi.lib
 pydantic==1.8.2
     # via
     #   -r requirements.in
+    #   bugyi.lib
     #   pylogutils
-pylogutils==0.1.1
-    # via -r requirements.in
+pylogutils==0.1.2
+    # via
+    #   -r requirements.in
+    #   bugyi.lib
 python-dateutil==2.8.2
     # via
     #   -r requirements.in
@@ -29,6 +32,7 @@ structlog==21.1.0
 typing-extensions==3.10.0.2 ; python_version < "3.8"
     # via
     #   -r requirements.in
+    #   bugyi.lib
     #   importlib-metadata
     #   pydantic
     #   structlog

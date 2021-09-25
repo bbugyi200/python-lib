@@ -22,7 +22,7 @@ binaryornot==0.4.4
     # via cookiecutter
 black==21.9b0
     # via -r requirements-dev.in
-bugyi.lib==0.2.1
+bugyi.lib==0.3.0
     # via pylogutils
 bump2version==1.0.1
     # via -r requirements-dev.in
@@ -76,6 +76,7 @@ importlib-metadata==4.8.1 ; python_version < "3.8"
     # via
     #   -r requirements.in
     #   backports.entry-points-selectable
+    #   bugyi.lib
     #   flake8
     #   pep517
     #   pluggy
@@ -97,8 +98,6 @@ jinja2-time==0.2.0
     # via cookiecutter
 lazy-object-proxy==1.6.0
     # via astroid
-loguru==0.5.3
-    # via bugyi.lib
 m2r2==0.3.1
     # via -r requirements-dev.in
 markupsafe==2.0.1
@@ -147,6 +146,7 @@ pycodestyle==2.7.0
 pydantic==1.8.2
     # via
     #   -r requirements.in
+    #   bugyi.lib
     #   pylogutils
 pydocstyle[toml]==6.1.1
     # via -r requirements-dev.in
@@ -156,8 +156,10 @@ pygments==2.10.0
     # via sphinx
 pylint==2.11.1
     # via -r requirements-dev.in
-pylogutils==0.1.1
-    # via -r requirements.in
+pylogutils==0.1.2
+    # via
+    #   -r requirements.in
+    #   bugyi.lib
 pyparsing==2.4.7
     # via packaging
 pytest==6.2.5
@@ -264,6 +266,7 @@ typing-extensions==3.10.0.2 ; python_version < "3.8"
     #   -r requirements.in
     #   astroid
     #   black
+    #   bugyi.lib
     #   gitpython
     #   importlib-metadata
     #   mypy
