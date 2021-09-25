@@ -1,6 +1,7 @@
 """Helper utilities related to IO."""
 
 import errno
+import logging
 import os
 from subprocess import PIPE, Popen
 import sys
@@ -9,9 +10,10 @@ from textwrap import wrap
 import tty
 from typing import Any, Iterator
 
-from loguru import logger
-
 from . import shell
+
+
+logger = logging.getLogger(__name__)
 
 
 def getch(prompt: str = None) -> str:

@@ -1,0 +1,344 @@
+# name: test_log[do stuff-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  15:45:03.585 [info     ] Are we going to do stuff?      [test] 
+  15:45:03.585 [warning  ] What stuff?!?!?!               [test] 
+  15:45:03.585 [info     ] Doing some stuff...            [test] 
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  '
+---
+# name: test_log[do stuff-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  15:45:03.585 [info     ] Are we going to do stuff?      [test] 
+  15:45:03.585 [warning  ] What stuff?!?!?!               [test] 
+  15:45:03.585 [info     ] Doing some stuff...            [test] stuff=???
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  '
+---
+# name: test_log[log ERROR to stdout-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[log ERROR to stdout-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[log to stdout and stderr-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  15:45:03.585 [info     ] Are we going to do stuff?      [test] 
+  15:45:03.585 [warning  ] What stuff?!?!?!               [test] 
+  15:45:03.585 [info     ] Doing some stuff...            [test] 
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  
+  ----- STDERR -----
+  15:45:03.585 [info     ] Are we going to do stuff?      [test] 
+  15:45:03.585 [warning  ] What stuff?!?!?!               [test] 
+  15:45:03.585 [info     ] Doing some stuff...            [test] 
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  '
+---
+# name: test_log[log to stdout and stderr-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  15:45:03.585 [info     ] Are we going to do stuff?      [test] 
+  15:45:03.585 [warning  ] What stuff?!?!?!               [test] 
+  15:45:03.585 [info     ] Doing some stuff...            [test] stuff=???
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  
+  ----- STDERR -----
+  15:45:03.585 [info     ] Are we going to do stuff?      [test] 
+  15:45:03.585 [warning  ] What stuff?!?!?!               [test] 
+  15:45:03.585 [info     ] Doing some stuff...            [test] stuff=???
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  '
+---
+# name: test_log[log to stdout-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  15:45:03.585 [info     ] Are we going to do stuff?      [test] 
+  15:45:03.585 [warning  ] What stuff?!?!?!               [test] 
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[log to stdout-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  15:45:03.585 [info     ] Are we going to do stuff?      [test] 
+  15:45:03.585 [warning  ] What stuff?!?!?!               [test] 
+  15:45:03.585 [error    ] Did we do the stuff?!?!?!      [test] 
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[no args (default: colored logging to stderr)-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  [2m15:45:03.585[0m [[32m[1minfo     [0m] [1mAre we going to do stuff?     [0m [[34m[1mtest[0m] 
+  [2m15:45:03.585[0m [[33m[1mwarning  [0m] [1mWhat stuff?!?!?!              [0m [[34m[1mtest[0m] 
+  [2m15:45:03.585[0m [[31m[1merror    [0m] [1mDid we do the stuff?!?!?!     [0m [[34m[1mtest[0m] 
+  
+  '
+---
+# name: test_log[no args (default: colored logging to stderr)-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  [2m15:45:03.585[0m [[32m[1minfo     [0m] [1mAre we going to do stuff?     [0m [[34m[1mtest[0m] 
+  [2m15:45:03.585[0m [[33m[1mwarning  [0m] [1mWhat stuff?!?!?!              [0m [[34m[1mtest[0m] 
+  [2m15:45:03.585[0m [[31m[1merror    [0m] [1mDid we do the stuff?!?!?!     [0m [[34m[1mtest[0m] 
+  
+  '
+---
+# name: test_log[no logging-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[no logging-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[super verbose to stderr-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  2021-09-06T15:45:03.585481Z [trace    ] TRACE level logging enabled.   [cli] args=Arguments(logs=[Log(file='stderr', format='nocolor', level=None)], verbose=3, do_stuff=False) fargs={'argv': ['', '-vvv', '--log', 'stderr@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stderr', format='nocolor', level=None)], verbose=3, do_stuff=False) fargs={'argv': ['', '-vvv', '--log', 'stderr@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] Can anyone hear me???          [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [info     ] Are we going to do stuff?      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [warning  ] What stuff?!?!?!               [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [error    ] Did we do the stuff?!?!?!      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  
+  '
+---
+# name: test_log[super verbose to stderr-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  2021-09-06T15:45:03.585481Z [trace    ] TRACE level logging enabled.   [cli] args=Arguments(logs=[Log(file='stderr', format='nocolor', level=None)], verbose=3, do_stuff=False) fargs={'argv': ['', '-vvv', '--log', 'stderr@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stderr', format='nocolor', level=None)], verbose=3, do_stuff=False) fargs={'argv': ['', '-vvv', '--log', 'stderr@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [trace    ] This is a TRACE level message. [test] function=fake_function lineno=123 log_level=TRACE module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] Can anyone hear me???          [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [info     ] Are we going to do stuff?      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [warning  ] What stuff?!?!?!               [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [error    ] Did we do the stuff?!?!?!      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  
+  '
+---
+# name: test_log[super verbose to stdout-logging]
+  '
+  ----- STDOUT -----
+  2021-09-06T15:45:03.585481Z [trace    ] TRACE level logging enabled.   [cli] args=Arguments(logs=[Log(file='stdout', format='nocolor', level=None)], verbose=3, do_stuff=False) fargs={'argv': ['', '-vvv', '--log', 'stdout@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stdout', format='nocolor', level=None)], verbose=3, do_stuff=False) fargs={'argv': ['', '-vvv', '--log', 'stdout@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  Starting CLI test...
+  2021-09-06T15:45:03.585481Z [debug    ] Can anyone hear me???          [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [info     ] Are we going to do stuff?      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [warning  ] What stuff?!?!?!               [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [error    ] Did we do the stuff?!?!?!      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[super verbose to stdout-structlog]
+  '
+  ----- STDOUT -----
+  2021-09-06T15:45:03.585481Z [trace    ] TRACE level logging enabled.   [cli] args=Arguments(logs=[Log(file='stdout', format='nocolor', level=None)], verbose=3, do_stuff=False) fargs={'argv': ['', '-vvv', '--log', 'stdout@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stdout', format='nocolor', level=None)], verbose=3, do_stuff=False) fargs={'argv': ['', '-vvv', '--log', 'stdout@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  Starting CLI test...
+  2021-09-06T15:45:03.585481Z [trace    ] This is a TRACE level message. [test] function=fake_function lineno=123 log_level=TRACE module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] Can anyone hear me???          [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [info     ] Are we going to do stuff?      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [warning  ] What stuff?!?!?!               [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [error    ] Did we do the stuff?!?!?!      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[verbose to stderr-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  15:45:03.585481 [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stderr', format='nocolor', level=None)], verbose=1, do_stuff=False) pid=12345 thread=MainThread
+  15:45:03.585481 [debug    ] Can anyone hear me???          [test] pid=12345 thread=MainThread
+  15:45:03.585481 [info     ] Are we going to do stuff?      [test] pid=12345 thread=MainThread
+  15:45:03.585481 [warning  ] What stuff?!?!?!               [test] pid=12345 thread=MainThread
+  15:45:03.585481 [error    ] Did we do the stuff?!?!?!      [test] pid=12345 thread=MainThread
+  
+  '
+---
+# name: test_log[verbose to stderr-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  15:45:03.585481 [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stderr', format='nocolor', level=None)], verbose=1, do_stuff=False) pid=12345 thread=MainThread
+  15:45:03.585481 [debug    ] Can anyone hear me???          [test] pid=12345 thread=MainThread
+  15:45:03.585481 [info     ] Are we going to do stuff?      [test] pid=12345 thread=MainThread
+  15:45:03.585481 [warning  ] What stuff?!?!?!               [test] pid=12345 thread=MainThread
+  15:45:03.585481 [error    ] Did we do the stuff?!?!?!      [test] pid=12345 thread=MainThread
+  
+  '
+---
+# name: test_log[verbose to stdout-logging]
+  '
+  ----- STDOUT -----
+  15:45:03.585481 [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stdout', format='nocolor', level=None)], verbose=1, do_stuff=False) pid=12345 thread=MainThread
+  Starting CLI test...
+  15:45:03.585481 [debug    ] Can anyone hear me???          [test] pid=12345 thread=MainThread
+  15:45:03.585481 [info     ] Are we going to do stuff?      [test] pid=12345 thread=MainThread
+  15:45:03.585481 [warning  ] What stuff?!?!?!               [test] pid=12345 thread=MainThread
+  15:45:03.585481 [error    ] Did we do the stuff?!?!?!      [test] pid=12345 thread=MainThread
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[verbose to stdout-structlog]
+  '
+  ----- STDOUT -----
+  15:45:03.585481 [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stdout', format='nocolor', level=None)], verbose=1, do_stuff=False) pid=12345 thread=MainThread
+  Starting CLI test...
+  15:45:03.585481 [debug    ] Can anyone hear me???          [test] pid=12345 thread=MainThread
+  15:45:03.585481 [info     ] Are we going to do stuff?      [test] pid=12345 thread=MainThread
+  15:45:03.585481 [warning  ] What stuff?!?!?!               [test] pid=12345 thread=MainThread
+  15:45:03.585481 [error    ] Did we do the stuff?!?!?!      [test] pid=12345 thread=MainThread
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[very verbose to stderr-logging]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  2021-09-06T15:45:03.585481Z [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stderr', format='nocolor', level=None)], verbose=2, do_stuff=False) fargs={'argv': ['', '-vv', '--log', 'stderr@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] Can anyone hear me???          [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [info     ] Are we going to do stuff?      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [warning  ] What stuff?!?!?!               [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [error    ] Did we do the stuff?!?!?!      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  
+  '
+---
+# name: test_log[very verbose to stderr-structlog]
+  '
+  ----- STDOUT -----
+  Starting CLI test...
+  
+  
+  ----- STDERR -----
+  2021-09-06T15:45:03.585481Z [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stderr', format='nocolor', level=None)], verbose=2, do_stuff=False) fargs={'argv': ['', '-vv', '--log', 'stderr@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [debug    ] Can anyone hear me???          [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [info     ] Are we going to do stuff?      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [warning  ] What stuff?!?!?!               [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [error    ] Did we do the stuff?!?!?!      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  
+  '
+---
+# name: test_log[very verbose to stdout-logging]
+  '
+  ----- STDOUT -----
+  2021-09-06T15:45:03.585481Z [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stdout', format='nocolor', level=None)], verbose=2, do_stuff=False) fargs={'argv': ['', '-vv', '--log', 'stdout@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  Starting CLI test...
+  2021-09-06T15:45:03.585481Z [debug    ] Can anyone hear me???          [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [info     ] Are we going to do stuff?      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [warning  ] What stuff?!?!?!               [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [error    ] Did we do the stuff?!?!?!      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  
+  
+  ----- STDERR -----
+  
+  '
+---
+# name: test_log[very verbose to stdout-structlog]
+  '
+  ----- STDOUT -----
+  2021-09-06T15:45:03.585481Z [debug    ] DEBUG level logging enabled.   [cli] args=Arguments(logs=[Log(file='stdout', format='nocolor', level=None)], verbose=2, do_stuff=False) fargs={'argv': ['', '-vv', '--log', 'stdout@nocolor']} function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  Starting CLI test...
+  2021-09-06T15:45:03.585481Z [debug    ] Can anyone hear me???          [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [info     ] Are we going to do stuff?      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [warning  ] What stuff?!?!?!               [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  2021-09-06T15:45:03.585481Z [error    ] Did we do the stuff?!?!?!      [test] function=fake_function lineno=123 module=fake_module pid=12345 thread=MainThread
+  
+  
+  ----- STDERR -----
+  
+  '
+---

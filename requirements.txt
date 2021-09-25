@@ -4,9 +4,25 @@
 #
 #    "make update-requirements"
 #
+bugyi.lib==0.2.1
+    # via pylogutils
+colorama==0.4.4
+    # via pylogutils
 loguru==0.5.3
+    # via bugyi.lib
+pydantic==1.8.2
+    # via
+    #   -r requirements.in
+    #   pylogutils
+pylogutils==0.1.1
     # via -r requirements.in
 python-dateutil==2.8.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   bugyi.lib
 six==1.16.0
     # via python-dateutil
+structlog==21.1.0
+    # via pylogutils
+typing-extensions==3.10.0.2
+    # via pydantic
