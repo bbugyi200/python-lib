@@ -2,7 +2,7 @@
 
 import datetime as dt
 import re
-from typing import List, cast
+from typing import List
 
 from dateutil.parser import parse as dateutil_parse
 
@@ -46,7 +46,7 @@ def parse_date(date: DateLike) -> dt.date:
         return dt.date.today()
     elif isinstance(date, str):
         datetime = dateutil_parse(date)
-        return cast(dt.date, datetime.date())
+        return datetime.date()
     elif isinstance(date, dt.datetime):
         return date.date()
     elif isinstance(date, dt.date):

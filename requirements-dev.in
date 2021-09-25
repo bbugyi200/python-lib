@@ -15,6 +15,9 @@ mypy
 pydocstyle[toml]
 pylint
 
+### Types
+types-python-dateutil
+
 ### Docs
 m2r2
 sphinx
