@@ -18,7 +18,7 @@ def getch(prompt: str = None) -> str:
     """Reads a single character from stdin.
 
     Args:
-        prompt (optional): prompt that is presented to user.
+        prompt: prompt that is presented to user.
 
     Returns:
         The single character that was read.
