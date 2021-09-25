@@ -5,14 +5,17 @@ command.
 
 import subprocess as sp
 
-from loguru import logger as log
-
-from . import subprocess as bsp  # pylint: disable=reimported
+from . import shell
 from .meta import scriptname
 
 
 def get_secret(key: str) -> str:
-    secret, _err = bsp.safe_popen(["pass", "show", key]).unwrap()
+    """Returns a secret (i.e. a password).
+
+    Args:
+        key: The key that the secret is associated with.
+    """
+    secret, _err = shell.safe_popen(["pass", "show", key]).unwrap()
     return secret
 
 
@@ -25,8 +28,9 @@ def notify(
 
     Args:
         *args: Arguments to be passed to the notify-send command.
-        title (opt): Notification title.
-        urgency (opt): Notification urgency.
+        title: Notification title.
+        urgency: Notification urgency.
+        up: How far should we crawl up the stack to get the script's name?
     """
     try:
         assert args, "No notification message specified."
@@ -51,15 +55,6 @@ def notify(
     cmd_list.extend(args)
 
     sp.check_call(cmd_list)
-
-
-def xclip_copy(clip: str) -> None:
-    if bsp.command_exists("xclip"):
-        ps = sp.Popen(["xclip", "-sel", "clip"], stdin=sp.PIPE)
-        ps.communicate(input=clip.encode())
-        log.info("Copied {} into clipboard using xclip.", clip)
-    else:
-        log.warning("'xclip' is not installed.")
 
 
 def xkey(key: str) -> None:

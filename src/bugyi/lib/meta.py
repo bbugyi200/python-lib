@@ -8,7 +8,7 @@ import inspect
 from os.path import abspath, isfile, realpath
 from pathlib import Path
 import sys
-from typing import Any, Callable, cast
+from typing import Any, Callable
 from warnings import warn
 
 

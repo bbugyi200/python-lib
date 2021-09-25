@@ -175,7 +175,7 @@ def return_lazy_result(
     func: Callable[..., Result[T, E]]
 ) -> Callable[..., "_LazyResult[T, E]"]:
     """Converts the return type of a function from result to a "lazy" result.
-    
+
     In order to fetch the real return type from lazy_result, you must call
     lazy_result.result() or any other valid Result method [e.g.
     lazy_result.unwrap()].

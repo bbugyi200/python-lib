@@ -1,3 +1,5 @@
+"""Helper utilities related to Python types."""
+
 from collections import defaultdict
 import datetime as dt
 from enum import Enum

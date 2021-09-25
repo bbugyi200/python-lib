@@ -2,11 +2,16 @@
 
 import errno
 import os
+from subprocess import PIPE, Popen
 import sys
 import termios
 from textwrap import wrap
 import tty
-from typing import Any, Callable, Iterator
+from typing import Any, Iterator
+
+from loguru import logger
+
+from . import shell
 
 
 def getch(prompt: str = None) -> str:
@@ -116,3 +121,24 @@ def mkfifo(fifo_path: str) -> None:
         os.mkfifo(fifo_path)
     except OSError:
         pass
+
+
+def copy_to_clipboard(clip: str) -> None:
+    """Copys a clip to the system clipboard.
+
+    Args:
+        clip: The clip that gets copied into the clipboard.
+    """
+    if shell.command_exists("xclip"):
+        tool = "xclip"
+        cmd_list = ["xclip", "-sel", "clip"]
+    elif shell.command_exists("pbcopy"):
+        tool = "pbcopy"
+        cmd_list = ["pbcopy"]
+    else:
+        logger.warning("Neither xclip nor pbcopy are installed.")
+        return
+
+    popen = Popen(cmd_list, stdin=PIPE)
+    popen.communicate(input=clip.encode())
+    logger.info("Copied %s into clipboard using %s.", clip, tool)
