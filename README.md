@@ -8,7 +8,7 @@ project status badges:
 
 [![CI Workflow](https://github.com/bbugyi200/python-lib/actions/workflows/ci.yml/badge.svg)](https://github.com/bbugyi200/python-lib/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/bbugyi200/python-lib/branch/master/graph/badge.svg)](https://codecov.io/gh/bbugyi200/python-lib)
-[![Documentation Status](https://readthedocs.org/projects/bugyi.lib/badge/?version=latest)](https://bugyi.lib.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/python-lib/badge/?version=latest)](https://python-lib.readthedocs.io/en/latest/?badge=latest)
 [![Package Health](https://snyk.io/advisor/python/bugyi.lib/badge.svg)](https://snyk.io/advisor/python/bugyi.lib)
 
 version badges:
@@ -78,9 +78,9 @@ you through the process.
 * [Documentation][1]: This project's full documentation.
 
 
-[1]: https://bugyi.lib.readthedocs.io/en/latest
+[1]: https://python-lib.readthedocs.io/en/latest
 [2]: https://github.com/bbugyi200/python-lib/blob/master/CHANGELOG.md
-[3]: https://bugyi.lib.readthedocs.io/en/latest/modules.html
+[3]: https://python-lib.readthedocs.io/en/latest/modules.html
 [4]: https://github.com/bbugyi200/cc-python
 [5]: https://github.com/cookiecutter/cookiecutter
 [6]: https://docs.readthedocs.io/en/stable/
