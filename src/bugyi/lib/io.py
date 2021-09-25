@@ -1,3 +1,5 @@
+"""Helper utilities related to IO."""
+
 import errno
 import os
 import sys
@@ -44,24 +46,6 @@ def imsg(msg: str) -> None:
 def eprint(*args: Any, **kwargs: Any) -> None:
     """Helper function for printing to STDERR."""
     print(*args, file=sys.stderr, **kwargs)
-
-
-def _color_factory(N: int) -> Callable[[str], str]:
-    def color(msg: str) -> str:
-        return "%s%s%s" % ("\033[{}m".format(N), msg, "\033[0m")
-
-    return color
-
-
-class colors:
-    black = _color_factory(30)
-    blue = _color_factory(34)
-    cyan = _color_factory(36)
-    green = _color_factory(32)
-    magenta = _color_factory(35)
-    red = _color_factory(31)
-    white = _color_factory(37)
-    yellow = _color_factory(33)
 
 
 def ewrap(

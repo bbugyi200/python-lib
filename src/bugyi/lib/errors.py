@@ -1,3 +1,5 @@
+"""Custom error handling code lives here."""
+
 import traceback
 from typing import Iterator, List, Optional
 
@@ -11,6 +13,8 @@ BResult = Result[T, "BugyiError"]
 
 
 class BErr(Err[T, "BugyiError"]):
+    """Bugyi Err Type."""
+
     def __init__(
         self, emsg: str, cause: Exception = None, up: int = 0
     ) -> None:
@@ -19,6 +23,8 @@ class BErr(Err[T, "BugyiError"]):
 
 
 class BugyiError(Exception):
+    """Custom general-purpose exception."""
+
     def __init__(
         self, emsg: str, cause: Exception = None, up: int = 0
     ) -> None:
@@ -189,6 +195,17 @@ def _tb_or_repr(e: BaseException, width: int) -> str:
 
 
 def chain_errors(e1: E, e2: Optional[Exception]) -> E:
+    """Chain two exceptions together.
+
+    This is the functional equivalent to ``raise e1 from e2``.
+
+    Args:
+        e1: An exception.
+        e2: The exception we want to chain to ``e2``.
+
+    Returns:
+        ``e1`` after chaining ``e2`` to it.
+    """
     e: BaseException = e1
     cause = e.__cause__
     while cause:

@@ -54,6 +54,11 @@ def _path_to_module(path: str) -> str:
 
 
 def scriptname(*, up: int = 0) -> str:
+    """Returns the name of the current script / module.
+
+    Args:
+        up: How far should we crawl up the stack?
+    """
     frame = inspect.stack()[up + 1]
     return Path(frame.filename).stem
 
