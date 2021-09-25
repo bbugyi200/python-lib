@@ -2,7 +2,6 @@
 
 import argparse
 from dataclasses import dataclass
-from importlib.metadata import PackageNotFoundError, version as get_version
 import inspect
 import os
 from pathlib import Path
@@ -30,6 +29,15 @@ from logutils import (
 
 from .meta import scriptname
 from .types import Protocol, literal_to_list
+
+
+try:
+    from importlib.metadata import (  # type: ignore[attr-defined]
+        PackageNotFoundError,
+        version as get_version,
+    )
+except ImportError:
+    from importlib_metadata import PackageNotFoundError, version as get_version
 
 
 _T = TypeVar("_T")
@@ -159,7 +167,8 @@ def ArgumentParser(
     )
 
     caller_module = inspect.getmodule(frame)
-    if package := getattr(caller_module, "__package__", None):
+    package = getattr(caller_module, "__package__", None)
+    if package:
         assert caller_module is not None
         try:
             package_version = get_version(package)

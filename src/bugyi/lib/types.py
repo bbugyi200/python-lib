@@ -19,15 +19,16 @@ PathLike = Union[str, Path]
 # modules/scripts.
 #
 # Used to maintain Python<=3.7 compatibility.
-try:
+if sys.version_info >= (3, 8):
     from typing import (  # pylint: disable=unused-import
         Final,
         Literal,
         Protocol,
+        get_args,
     )
-except ImportError:
+else:
     try:
-        from typing_extension import Final, Literal, Protocol  # type: ignore
+        from typing_extensions import Final, Literal, Protocol, get_args
     except ImportError:
 
         class _FinalMock:
@@ -38,9 +39,9 @@ except ImportError:
             def __getitem__(cls, _key: Any) -> "_ProtocolMock":
                 return cls
 
-        Final = _FinalMock()  # type: ignore
-        Literal = defaultdict(lambda: str)  # type: ignore
-        Protocol = _ProtocolMock("Protocol", (object,), {})  # type: ignore
+        Final = _FinalMock()  # type: ignore[assignment]
+        Literal = defaultdict(lambda: str)  # type: ignore[assignment]
+        Protocol = _ProtocolMock("Protocol", (object,), {})  # type: ignore[assignment]
 
 
 def assert_never(value: NoReturn) -> NoReturn:
@@ -69,13 +70,6 @@ def literal_to_list(
         >>> literal_to_list(Literal['a', 'b', Literal[1, 2, Literal[None]]])
         ['a', 'b', 1, 2, None]
     """
-    assert sys.version_info >= (3, 8), (
-        "This function cannot be called from code run by Python<3.8"
-        f" ({sys.version})."
-    )
-
-    from typing import get_args
-
     result = []
 
     for arg in get_args(literal):

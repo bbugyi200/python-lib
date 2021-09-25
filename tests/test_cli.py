@@ -38,7 +38,7 @@ def parse_cli_args(argv: Sequence[str]) -> Arguments:
     return Arguments(**kwargs)
 
 
-def run_factory(logger_type: LoggerType) -> Callable[[Any], int]:
+def run_factory(logger_type: LoggerType) -> Callable[[Any], int]:  # type: ignore[valid-type]
     """This runner function is meant to be passed into cli.main_factory()."""
     log: Union[logging.Logger, logutils.BetterBoundLogger]
     if logger_type == "structlog":
@@ -134,7 +134,7 @@ def test_log(
     capsys: CaptureFixture,
     snapshot: Snapshot,
     args: List[str],
-    logger_type: LoggerType,
+    logger_type: LoggerType,  # type: ignore[valid-type]
 ) -> None:
     """Test the --log option.
 

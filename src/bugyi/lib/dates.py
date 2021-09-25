@@ -30,9 +30,10 @@ def parse_date(date: DateLike) -> dt.date:
     if isinstance(date, str):
         date = date.lower()
 
-        if m := re.match("^(?P<num>[0-9]+)(?P<ch>d|w)$", date):
-            num = int(m.group("num"))
-            ch = m.group("ch")
+        match = re.match("^(?P<num>[0-9]+)(?P<ch>d|w)$", date)
+        if match:
+            num = int(match.group("num"))
+            ch = match.group("ch")
 
             if ch == "d":
                 days = num
