@@ -9,9 +9,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.3.0...HEAD)
+## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.4.0...HEAD)
 
 No notable changes have been made.
+
+## [0.4.0](https://github.com/bbugyi200/python-lib/compare/0.3.0...0.4.0) - 2021-09-26
+
+### Removed
+
+* Removed the `lib.cli` module, which has been migrated to the [clap](https://github.com/bbugyi200/clap) package.
 
 ## [0.3.0](https://github.com/bbugyi200/python-lib/compare/0.2.1...0.3.0) - 2021-09-25
 
