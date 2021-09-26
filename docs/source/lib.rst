@@ -12,7 +12,6 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   lib.cli
    lib.core
    lib.dates
    lib.errors
