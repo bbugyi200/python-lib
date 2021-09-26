@@ -1,5 +1,4 @@
 ### Tests
-freezegun
 pytest
 pytest-cov
 pytest-mock
@@ -17,7 +16,6 @@ pydocstyle[toml]
 pylint
 
 ### Types
-types-freezegun
 types-python-dateutil
 
 ### Docs

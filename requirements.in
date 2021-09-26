@@ -1,5 +1,2 @@
-importlib-metadata; python_version < '3.8'
-pydantic
-pylogutils >= 0.1.2
 python-dateutil
 typing_extensions; python_version < '3.8'
