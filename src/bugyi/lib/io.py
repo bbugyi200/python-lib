@@ -8,7 +8,7 @@ import sys
 import termios
 from textwrap import wrap
 import tty
-from typing import Any, Iterator
+from typing import Iterator
 
 from . import shell
 
@@ -38,21 +38,6 @@ def getch(prompt: str = None) -> str:
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
-
-
-def emsg(msg: str) -> None:
-    """ERROR Message"""
-    print("[ERROR] {}".format(msg))
-
-
-def imsg(msg: str) -> None:
-    """INFO Message"""
-    print(">>> {}".format(msg))
-
-
-def eprint(*args: Any, **kwargs: Any) -> None:
-    """Helper function for printing to STDERR."""
-    print(*args, file=sys.stderr, **kwargs)
 
 
 def ewrap(
