@@ -19,6 +19,5 @@ Submodules
    lib.meta
    lib.result
    lib.shell
-   lib.tools
    lib.types
    lib.xdg
