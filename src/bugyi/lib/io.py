@@ -9,7 +9,7 @@ import sys
 import termios
 from textwrap import wrap
 import tty
-from typing import Iterable, Iterator, Union
+from typing import Iterable, Iterator
 
 from . import shell
 from .meta import scriptname

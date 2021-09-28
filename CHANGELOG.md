@@ -9,9 +9,19 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.4.0...HEAD)
+## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.5.0...HEAD)
 
 No notable changes have been made.
+
+## [0.5.0](https://github.com/bbugyi200/python-lib/compare/0.4.0...0.5.0) - 2021-09-28
+
+### Changed
+
+* Improve the `io.get_secret()` function.
+
+### Miscellaneous
+
+* Increase test coverage to >=30%.
 
 ## [0.4.0](https://github.com/bbugyi200/python-lib/compare/0.3.0...0.4.0) - 2021-09-26
 
