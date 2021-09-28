@@ -4,7 +4,7 @@ from typing import Iterable, Optional
 
 from pytest import mark
 
-from bugyi.lib.io import get_secret
+from bugyi.lib.secrets import get_secret
 
 
 params = mark.parametrize
