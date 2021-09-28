@@ -45,11 +45,6 @@ setup(
         "Programming Language :: Python :: 3.9",
     ],
     description=DESCRIPTION,
-    entry_points={
-        "console_scripts": [
-            "bugyi.lib = bugyi.lib.cli:main",
-        ]
-    },
     scripts=glob.glob("scripts/*"),
     license="MIT license",
     long_description=long_description(),

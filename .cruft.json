@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/bbugyi200/cc-python",
-  "commit": "38d2e6632d0ca7acbdb1ecb9fd8ec3f9900509ab",
+  "commit": "f498a084471adbefe83e03c509c4546ba5338dd7",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -15,7 +15,8 @@
       "package_description": "Overly general Python library used when no other library is a good fit.",
       "package_type": "library",
       "_template": "https://github.com/bbugyi200/cc-python",
-      "package_path": "bugyi/lib"
+      "package_path": "bugyi/lib",
+      "package_module": "bugyi_lib"
     }
   },
   "directory": null
