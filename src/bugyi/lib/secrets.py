@@ -2,6 +2,8 @@
 
 from typing import Iterable
 
+from . import shell
+
 
 def get_secret(
     key: str,
@@ -25,8 +27,6 @@ def get_secret(
         user: Should we use `sudo -u <user>` to run our secret retriever
           command as that user?
     """
-    from . import shell
-
     if key_parts:
         key = ".".join([key] + list(key_parts))
 
