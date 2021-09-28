@@ -12,6 +12,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   lib.bugyi_lib
    lib.core
    lib.dates
    lib.errors
