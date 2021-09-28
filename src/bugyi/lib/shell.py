@@ -9,8 +9,15 @@ from .errors import BErr, BResult, BugyiError
 from .result import Err, Ok
 
 
+_DEFAULT_TIMEOUT = 15
+
+
 def safe_popen(
-    cmd_parts: Iterable[str], *, up: int = 0, **kwargs: Any
+    cmd_parts: Iterable[str],
+    *,
+    up: int = 0,
+    timeout: int = _DEFAULT_TIMEOUT,
+    **kwargs: Any
 ) -> BResult[Tuple[str, str]]:
     """Wrapper for subprocess.Popen(...).
 
@@ -24,16 +31,18 @@ def safe_popen(
     kwargs.setdefault("stdout", sp.PIPE)
     kwargs.setdefault("stderr", sp.PIPE)
 
-    ps = sp.Popen(cmd_list, **kwargs)
+    proc = sp.Popen(cmd_list, **kwargs)
 
-    proc = _DoneProcess(ps, cmd_list)
-    if ps.returncode != 0:
-        return proc.to_error(up=up + 1)
+    done_proc = _DoneProcess(proc, cmd_list, timeout=timeout)
+    if proc.returncode != 0:
+        return done_proc.to_error(up=up + 1)
 
-    return Ok((proc.out, proc.err))
+    return Ok((done_proc.out, done_proc.err))
 
 
-def unsafe_popen(cmd_parts: Iterable[str], **kwargs: Any) -> Tuple[str, str]:
+def unsafe_popen(
+    cmd_parts: Iterable[str], timeout: int = _DEFAULT_TIMEOUT, **kwargs: Any
+) -> Tuple[str, str]:
     """Wrapper for subprocess.Popen(...)
 
     You can use unsafe_popen() instead of safe_popen() when you don't care
@@ -49,18 +58,28 @@ def unsafe_popen(cmd_parts: Iterable[str], **kwargs: Any) -> Tuple[str, str]:
     if "stderr" not in kwargs:
         kwargs["stderr"] = sp.PIPE
 
-    ps = sp.Popen(cmd_list, **kwargs)
-    proc = _DoneProcess(ps, cmd_list)
+    proc = sp.Popen(cmd_list, **kwargs)
+    done_proc = _DoneProcess(proc, cmd_list, timeout=timeout)
 
-    return (proc.out, proc.err)
+    return (done_proc.out, done_proc.err)
 
 
 class _DoneProcess:
-    def __init__(self, ps: sp.Popen, cmd_list: List[str]) -> None:
-        self.ps = ps
+    def __init__(
+        self,
+        proc: sp.Popen,
+        cmd_list: List[str],
+        timeout: int = _DEFAULT_TIMEOUT,
+    ) -> None:
+        self.proc = proc
         self.cmd_list = cmd_list
 
-        stdout, stderr = ps.communicate()
+        try:
+            stdout, stderr = proc.communicate(timeout=timeout)
+        except sp.TimeoutExpired:
+            proc.kill()
+            stdout, stderr = proc.communicate()
+
         self.out = "" if stdout is None else str(stdout.decode().strip())
         self.err = "" if stderr is None else str(stderr.decode().strip())
 
@@ -75,7 +94,7 @@ class _DoneProcess:
 
         return BErr(
             "Command Failed (ec={}): {!r}{}{}".format(
-                self.ps.returncode, self.cmd_list, maybe_out, maybe_err
+                self.proc.returncode, self.cmd_list, maybe_out, maybe_err
             ),
             up=up + 1,
         )
@@ -113,7 +132,7 @@ class StillAliveException(Exception):
 
 def command_exists(cmd: str) -> bool:
     """Returns True iff the shell command ``cmd`` exists."""
-    ps = sp.Popen(
+    proc = sp.Popen(
         "hash {}".format(cmd), shell=True, stdout=sp.PIPE, stderr=sp.PIPE
     )
-    return ps.wait() == 0
+    return proc.wait() == 0
