@@ -9,7 +9,7 @@ def get_secret(
     key: str,
     *key_parts: str,
     cmd_list: Iterable[str] = None,
-    directory: str = None,
+    folder: str = None,
     user: str = None,
 ) -> str:
     """Returns a secret (i.e. a password).
@@ -22,7 +22,7 @@ def get_secret(
         cmd_list: Optional command list to use for fetching the secret (e.g.
           ["pass", "show"], which is the default). Note: we will append the
           ``key`` argument to this list before running.
-        directory: If provided, this directory is prepended to the beginning of
+        folder: If provided, this folder name is prepended to the beginning of
           the ``key`` argument.
         user: Should we use `sudo -u <user>` to run our secret retriever
           command as that user?
@@ -33,9 +33,9 @@ def get_secret(
     if cmd_list is None:
         cmd_list = ["pass", "show"]
 
-    if directory is not None:
-        directory = directory.rstrip("/")
-        key = f"{directory}/{key}"
+    if folder is not None:
+        folder = folder.rstrip("/")
+        key = f"{folder}/{key}"
 
     full_cmd_list = []
     if user is not None:
