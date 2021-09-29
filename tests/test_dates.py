@@ -26,8 +26,10 @@ def frozen_time() -> Iterator[None]:
     [
         ("2021-09-30", dt.datetime.strptime("2021-09-30", "%Y-%m-%d").date()),
         ("@today", today),
+        ("@t", today),
         ("5d", today - dt.timedelta(days=5)),
         ("1w", today - dt.timedelta(days=7)),
+        ("3w", today - dt.timedelta(days=21)),
     ],
 )
 def test_parse_date(date_spec: str, expected: dt.date) -> None:
