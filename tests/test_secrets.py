@@ -25,7 +25,5 @@ def test_get_secret(
 ) -> None:
     """Test the get_secret() function."""
     cmd_list = ["echo"]
-    secret = get_secret(
-        key, *key_parts, cmd_list=cmd_list, folder=folder
-    )
+    secret = get_secret(key, *key_parts, cmd_list=cmd_list, folder=folder)
     assert secret == expected
