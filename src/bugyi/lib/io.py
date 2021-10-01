@@ -200,6 +200,7 @@ def _color_factory(N: int) -> Callable[[str], str]:
 
 class colors:
     """Namespace for <color>() functions."""
+
     black = _color_factory(30)
     blue = _color_factory(34)
     cyan = _color_factory(36)
