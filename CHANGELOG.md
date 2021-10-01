@@ -13,6 +13,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 No notable changes have been made.
 
+## [0.6.0](https://github.com/bbugyi200/python-lib/compare/0.6.0...HEAD)
+
+### Added
+
+* Add `io.colors` class.
+
 ## [0.5.0](https://github.com/bbugyi200/python-lib/compare/0.4.0...0.5.0) - 2021-09-28
 
 ### Changed
