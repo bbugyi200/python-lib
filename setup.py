@@ -5,7 +5,9 @@ from typing import Iterator, List
 from setuptools import find_namespace_packages, setup
 
 
-DESCRIPTION = "Overly general Python library used when no other library is a good fit."
+DESCRIPTION = (
+    "Overly general Python library used when no other library is a good fit."
+)
 
 
 def long_description() -> str:
