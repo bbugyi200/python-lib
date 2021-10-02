@@ -6,7 +6,7 @@
 #
 alabaster==0.7.12
     # via sphinx
-arrow==1.1.1
+arrow==1.2.0
     # via jinja2-time
 astroid==2.8.0
     # via pylint
@@ -52,7 +52,7 @@ docutils==0.17.1
     #   m2r2
     #   sphinx
     #   sphinx-rtd-theme
-filelock==3.1.0
+filelock==3.2.0
     # via
     #   tox
     #   virtualenv
@@ -163,9 +163,9 @@ python-dateutil==2.8.2
     #   freezegun
 python-slugify==5.0.2
     # via cookiecutter
-pytz==2021.1
+pytz==2021.3
     # via babel
-regex==2021.9.24
+regex==2021.9.30
     # via black
 requests==2.26.0
     # via
@@ -260,7 +260,7 @@ wheel==0.37.0
     # via pip-tools
 wrapt==1.12.1
     # via astroid
-zipp==3.5.1
+zipp==3.6.0
     # via
     #   importlib-metadata
     #   pep517
@@ -268,7 +268,7 @@ zipp==3.5.1
 # The following packages are considered to be unsafe in a requirements file:
 pip==21.2.4
     # via pip-tools
-setuptools==58.1.0
+setuptools==58.2.0
     # via
     #   astroid
     #   pip-tools
