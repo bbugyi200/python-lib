@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.5.0...HEAD)
+## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.6.0...HEAD)
 
 No notable changes have been made.
 
