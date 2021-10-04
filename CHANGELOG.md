@@ -9,9 +9,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.6.0...HEAD)
+## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.6.1...HEAD)
 
 No notable changes have been made.
+
+## [0.6.1](https://github.com/bbugyi200/python-lib/compare/0.6.0...0.6.1) - 2021-10-04
+
+### Fixed
+
+* Fix `_path_to_module()` when `sys.path` contains `Path` objects.
 
 ## [0.6.0](https://github.com/bbugyi200/python-lib/compare/0.5.0...0.6.0) - 2021-10-01
 
