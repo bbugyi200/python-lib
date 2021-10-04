@@ -44,7 +44,7 @@ def _path_to_module(path: str) -> str:
     if P.endswith((".py", ".px")):
         P = P[:-3]
 
-    sorted_pypaths = sorted(sys.path, key=lambda x: -len(x))
+    sorted_pypaths = sorted(sys.path, key=lambda p: -len(str(p)))
     for pypath in sorted_pypaths:
         pypath = realpath(pypath)
         P = P.replace(pypath + "/", "")
