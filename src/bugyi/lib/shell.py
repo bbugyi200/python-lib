@@ -2,14 +2,74 @@
 
 import os
 import subprocess as sp
-from typing import Any, Iterable, List, Tuple
+from typing import Any, Iterable, Iterator
 
 from . import xdg
-from .errors import BErr, BResult, BugyiError
-from .result import Err, Ok
+from .errors import BugyiError
+from .result import Err, Ok, Result
 
 
 _DEFAULT_TIMEOUT = 15
+
+
+class Process:
+    """A wrapper around a subprocess.Popen(...) object.
+
+    Examples:
+        >>> import subprocess as sp
+
+        >>> echo_factory = lambda x: sp.Popen(["echo", x], stdout=sp.PIPE)
+
+        >>> echo_popen = echo_factory("foo")
+        >>> echo_proc = Process(echo_popen)
+        >>> echo_proc.out
+        'foo'
+
+        >>> echo_popen = echo_factory("bar")
+        >>> out, _err = Process(echo_popen)
+        >>> out
+        'bar'
+    """
+
+    def __init__(
+        self,
+        popen: sp.Popen,
+        timeout: int = _DEFAULT_TIMEOUT,
+    ) -> None:
+        self.popen = popen
+
+        try:
+            stdout, stderr = popen.communicate(timeout=timeout)
+        except sp.TimeoutExpired:
+            popen.kill()
+            stdout, stderr = popen.communicate()
+
+        self.out = "" if stdout is None else str(stdout.decode().strip())
+        self.err = "" if stderr is None else str(stderr.decode().strip())
+
+    def __iter__(self) -> Iterator[str]:
+        yield from [self.out, self.err]
+
+    def to_error(self, *, up: int = 0) -> Err["Process", BugyiError]:
+        maybe_out = ""
+        if self.out:
+            maybe_out = "\n\n----- STDOUT\n{}".format(self.out)
+
+        maybe_err = ""
+        if self.err:
+            maybe_err = "\n\n----- STDERR\n{}".format(self.err)
+
+        return Err(
+            BugyiError(
+                "Command Failed (ec={}): {!r}{}{}".format(
+                    self.popen.returncode,
+                    self.popen.args,
+                    maybe_out,
+                    maybe_err,
+                ),
+                up=up + 1,
+            )
+        )
 
 
 def safe_popen(
@@ -18,31 +78,24 @@ def safe_popen(
     up: int = 0,
     timeout: int = _DEFAULT_TIMEOUT,
     **kwargs: Any
-) -> BResult[Tuple[str, str]]:
+) -> Result[Process, BugyiError]:
     """Wrapper for subprocess.Popen(...).
 
     Returns:
-        Ok((out, err)) if the command is successful.
+        Ok(Process) if the command is successful.
             OR
         Err(BugyiError) otherwise.
     """
-    cmd_list = list(cmd_parts)
+    process = unsafe_popen(cmd_parts, timeout=timeout, **kwargs)
+    if process.popen.returncode != 0:
+        return process.to_error(up=up + 1)
 
-    kwargs.setdefault("stdout", sp.PIPE)
-    kwargs.setdefault("stderr", sp.PIPE)
-
-    proc = sp.Popen(cmd_list, **kwargs)
-
-    done_proc = _DoneProcess(proc, cmd_list, timeout=timeout)
-    if proc.returncode != 0:
-        return done_proc.to_error(up=up + 1)
-
-    return Ok((done_proc.out, done_proc.err))
+    return Ok(process)
 
 
 def unsafe_popen(
     cmd_parts: Iterable[str], timeout: int = _DEFAULT_TIMEOUT, **kwargs: Any
-) -> Tuple[str, str]:
+) -> Process:
     """Wrapper for subprocess.Popen(...)
 
     You can use unsafe_popen() instead of safe_popen() when you don't care
@@ -52,52 +105,13 @@ def unsafe_popen(
     """
     cmd_list = list(cmd_parts)
 
-    if "stdout" not in kwargs:
-        kwargs["stdout"] = sp.PIPE
+    kwargs.setdefault("stdout", sp.PIPE)
+    kwargs.setdefault("stderr", sp.PIPE)
 
-    if "stderr" not in kwargs:
-        kwargs["stderr"] = sp.PIPE
+    popen = sp.Popen(cmd_list, **kwargs)
+    process = Process(popen, timeout=timeout)
 
-    proc = sp.Popen(cmd_list, **kwargs)
-    done_proc = _DoneProcess(proc, cmd_list, timeout=timeout)
-
-    return (done_proc.out, done_proc.err)
-
-
-class _DoneProcess:
-    def __init__(
-        self,
-        proc: sp.Popen,
-        cmd_list: List[str],
-        timeout: int = _DEFAULT_TIMEOUT,
-    ) -> None:
-        self.proc = proc
-        self.cmd_list = cmd_list
-
-        try:
-            stdout, stderr = proc.communicate(timeout=timeout)
-        except sp.TimeoutExpired:
-            proc.kill()
-            stdout, stderr = proc.communicate()
-
-        self.out = "" if stdout is None else str(stdout.decode().strip())
-        self.err = "" if stderr is None else str(stderr.decode().strip())
-
-    def to_error(self, *, up: int = 0) -> Err[Tuple[str, str], BugyiError]:
-        maybe_out = ""
-        if self.out:
-            maybe_out = "\n\n----- STDOUT\n{}".format(self.out)
-
-        maybe_err = ""
-        if self.err:
-            maybe_err = "\n\n----- STDERR\n{}".format(self.err)
-
-        return BErr(
-            "Command Failed (ec={}): {!r}{}{}".format(
-                self.proc.returncode, self.cmd_list, maybe_out, maybe_err
-            ),
-            up=up + 1,
-        )
+    return process
 
 
 def create_pidfile(*, up: int = 0) -> None:
@@ -132,7 +146,7 @@ class StillAliveException(Exception):
 
 def command_exists(cmd: str) -> bool:
     """Returns True iff the shell command ``cmd`` exists."""
-    proc = sp.Popen(
+    popen = sp.Popen(
         "hash {}".format(cmd), shell=True, stdout=sp.PIPE, stderr=sp.PIPE
     )
-    return proc.wait() == 0
+    return popen.wait() == 0
