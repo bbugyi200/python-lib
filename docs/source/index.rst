@@ -10,8 +10,8 @@ Overly general Python library used when no other library is a good fit.
    :caption: Table of Contents
 
     API Reference <modules>
-    CHANGELOG <changelog>
-    CONTRIBUTING <contributing>
+    Changelog <changelog>
+    Development Guide <contributing>
     README <readme>
 
 
