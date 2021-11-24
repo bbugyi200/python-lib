@@ -1,7 +1,7 @@
 """Helper utilities related to the subprocess module and the shell."""
 
 import os
-import subprocess as sp
+from subprocess import PIPE, Popen, TimeoutExpired
 from typing import Any, Iterable, Iterator
 
 from . import xdg
@@ -16,9 +16,9 @@ class Process:
     """A wrapper around a subprocess.Popen(...) object.
 
     Examples:
-        >>> import subprocess as sp
+        >>> from subprocess import PIPE, Popen
 
-        >>> echo_factory = lambda x: sp.Popen(["echo", x], stdout=sp.PIPE)
+        >>> echo_factory = lambda x: Popen(["echo", x], stdout=PIPE)
 
         >>> echo_popen = echo_factory("foo")
         >>> echo_proc = Process(echo_popen)
@@ -33,14 +33,14 @@ class Process:
 
     def __init__(
         self,
-        popen: sp.Popen,
+        popen: Popen,
         timeout: int = _DEFAULT_TIMEOUT,
     ) -> None:
         self.popen = popen
 
         try:
             stdout, stderr = popen.communicate(timeout=timeout)
-        except sp.TimeoutExpired:
+        except TimeoutExpired:
             popen.kill()
             stdout, stderr = popen.communicate()
 
@@ -102,14 +102,15 @@ def unsafe_popen(
     You can use unsafe_popen() instead of safe_popen() when you don't care
     whether or not the command succeeds.
 
-    Returns: (out, err)
+    Returns:
+        A Process(...) object.
     """
     cmd_list = list(cmd_parts)
 
-    kwargs.setdefault("stdout", sp.PIPE)
-    kwargs.setdefault("stderr", sp.PIPE)
+    kwargs.setdefault("stdout", PIPE)
+    kwargs.setdefault("stderr", PIPE)
 
-    popen = sp.Popen(cmd_list, **kwargs)
+    popen = Popen(cmd_list, **kwargs)
     process = Process(popen, timeout=timeout)
 
     return process
@@ -147,7 +148,7 @@ class StillAliveException(Exception):
 
 def command_exists(cmd: str) -> bool:
     """Returns True iff the shell command ``cmd`` exists."""
-    popen = sp.Popen(
-        "hash {}".format(cmd), shell=True, stdout=sp.PIPE, stderr=sp.PIPE
+    popen = Popen(
+        "hash {}".format(cmd), shell=True, stdout=PIPE, stderr=PIPE
     )
     return popen.wait() == 0
