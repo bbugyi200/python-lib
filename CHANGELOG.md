@@ -9,9 +9,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.6.1...HEAD)
+## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.7.0...HEAD)
 
 No notable changes have been made.
+
+## [0.7.0](https://github.com/bbugyi200/python-lib/compare/0.6.1...0.7.0) - 2021-10-04
+
+### Changed
+
+* The `shell.*_popen()` functions now return a Process object.
 
 ## [0.6.1](https://github.com/bbugyi200/python-lib/compare/0.6.0...0.6.1) - 2021-10-04
 
