@@ -51,6 +51,7 @@ class Process:
         yield from [self.out, self.err]
 
     def to_error(self, *, up: int = 0) -> Err["Process", BugyiError]:
+        """Converts a Process object into an Err(...) object.."""
         maybe_out = ""
         if self.out:
             maybe_out = "\n\n----- STDOUT\n{}".format(self.out)
