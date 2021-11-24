@@ -163,7 +163,7 @@ python-dateutil==2.8.2
     # via
     #   -r requirements.in
     #   freezegun
-python-result==0.2.0
+python-result==0.2.1
     # via -r requirements.in
 python-slugify==5.0.2
     # via cookiecutter
