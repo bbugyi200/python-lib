@@ -48,6 +48,7 @@ class Process:
         self.err = "" if stderr is None else str(stderr.decode().strip())
 
     def __iter__(self) -> Iterator[str]:
+        """Resturns a 2-tuple of the processes' STDOUT and STDERR."""
         yield from [self.out, self.err]
 
     def to_error(self, *, up: int = 0) -> Err["Process", BugyiError]:
