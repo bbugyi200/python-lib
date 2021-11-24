@@ -149,7 +149,5 @@ class StillAliveException(Exception):
 
 def command_exists(cmd: str) -> bool:
     """Returns True iff the shell command ``cmd`` exists."""
-    popen = Popen(
-        "hash {}".format(cmd), shell=True, stdout=PIPE, stderr=PIPE
-    )
+    popen = Popen("hash {}".format(cmd), shell=True, stdout=PIPE, stderr=PIPE)
     return popen.wait() == 0
