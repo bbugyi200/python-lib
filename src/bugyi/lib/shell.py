@@ -4,9 +4,10 @@ import os
 from subprocess import PIPE, Popen, TimeoutExpired
 from typing import Any, Iterable, Iterator
 
+from result import Err, Ok, Result
+
 from . import xdg
 from .errors import BugyiError
-from .result import Err, Ok, Result
 
 
 _DEFAULT_TIMEOUT = 15

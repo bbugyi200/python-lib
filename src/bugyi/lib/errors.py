@@ -3,8 +3,9 @@
 import traceback
 from typing import Iterator, List, Optional
 
+from result import Err, Result
+
 from .meta import Inspector, cname
-from .result import Err, Result
 from .types import E, T
 
 
