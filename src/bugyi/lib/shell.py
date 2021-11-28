@@ -1,5 +1,6 @@
 """Helper utilities related to the subprocess module and the shell."""
 
+import logging
 import os
 from subprocess import PIPE, Popen, TimeoutExpired
 from typing import Any, Iterable, Iterator
@@ -9,6 +10,8 @@ from result import Err, Ok, Result
 from . import xdg
 from .errors import BugyiError
 
+
+logger = logging.getLogger(__name__)
 
 _DEFAULT_TIMEOUT = 15
 
@@ -35,13 +38,19 @@ class Process:
     def __init__(
         self,
         popen: Popen,
-        timeout: int = _DEFAULT_TIMEOUT,
+        *,
+        timeout: float = _DEFAULT_TIMEOUT,
     ) -> None:
         self.popen = popen
 
         try:
             stdout, stderr = popen.communicate(timeout=timeout)
         except TimeoutExpired:
+            logger.warning(
+                "Timed out after %.1f seconds of waiting: %r",
+                timeout,
+                popen.args,
+            )
             popen.kill()
             stdout, stderr = popen.communicate()
 
@@ -79,7 +88,7 @@ def safe_popen(
     cmd_parts: Iterable[str],
     *,
     up: int = 0,
-    timeout: int = _DEFAULT_TIMEOUT,
+    timeout: float = _DEFAULT_TIMEOUT,
     **kwargs: Any
 ) -> Result[Process, BugyiError]:
     """Wrapper for subprocess.Popen(...).
@@ -97,7 +106,10 @@ def safe_popen(
 
 
 def unsafe_popen(
-    cmd_parts: Iterable[str], timeout: int = _DEFAULT_TIMEOUT, **kwargs: Any
+    cmd_parts: Iterable[str],
+    *,
+    timeout: float = _DEFAULT_TIMEOUT,
+    **kwargs: Any
 ) -> Process:
     """Wrapper for subprocess.Popen(...)
 
