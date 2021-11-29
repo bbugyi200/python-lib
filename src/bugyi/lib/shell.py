@@ -121,10 +121,7 @@ def unsafe_popen(
     """
     cmd_list = list(cmd_parts)
     logger.debug(
-        "Running system command. | command=%r  timeout=%.1f  kwargs=%r",
-        cmd_list,
-        timeout,
-        kwargs,
+        "Running system command. | command=%r  timeout=%.1f", cmd_list, timeout
     )
 
     kwargs.setdefault("stdout", PIPE)
