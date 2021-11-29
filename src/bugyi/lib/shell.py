@@ -89,7 +89,7 @@ def safe_popen(
     *,
     up: int = 0,
     timeout: float = _DEFAULT_TIMEOUT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Result[Process, BugyiError]:
     """Wrapper for subprocess.Popen(...).
 
@@ -109,7 +109,7 @@ def unsafe_popen(
     cmd_parts: Iterable[str],
     *,
     timeout: float = _DEFAULT_TIMEOUT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Process:
     """Wrapper for subprocess.Popen(...)
 
@@ -120,6 +120,12 @@ def unsafe_popen(
         A Process(...) object.
     """
     cmd_list = list(cmd_parts)
+    logger.debug(
+        "Running system command. | command=%r  timeout=%.1f  kwargs=%r",
+        cmd_list,
+        timeout,
+        kwargs,
+    )
 
     kwargs.setdefault("stdout", PIPE)
     kwargs.setdefault("stderr", PIPE)
