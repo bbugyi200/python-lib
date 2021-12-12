@@ -9,9 +9,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.9.0...HEAD)
+## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.10.0...HEAD)
 
 No notable changes have been made.
+
+
+## [0.10.0](https://github.com/bbugyi200/python-lib/compare/0.9.0...0.10.0) - 2021-12-11
+
+### Removed
+
+* Remove `bugyi.sh` bash library.
 
 
 ## [0.9.0](https://github.com/bbugyi200/python-lib/compare/0.8.0...0.9.0) - 2021-12-11
