@@ -1,3 +1,2 @@
 python-dateutil
 python-result ~= 0.2
-typing_extensions; python_version < '3.8'
