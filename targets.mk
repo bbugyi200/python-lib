@@ -11,6 +11,7 @@ PIP = $(PYTHON) -m pip
 PIP_COMPILE = $(PYTHON) -m piptools compile --allow-unsafe --no-emit-index-url -q --no-emit-trusted-host
 PIP_SYNC = $(PYTHON) -m piptools sync
 PYTHON = $(SOURCE_VENV) python
+PYTHON_VERSION := 3.8
 SOURCE_VENV = source $(VENV_ACTIVATE);
 SPHINX_APIDOC = $(SOURCE_VENV) sphinx-apidoc
 SPHINX_BUILD = $(SOURCE_VENV) sphinx-build
@@ -41,7 +42,11 @@ all:  ## Build the package, build the docs, run all tests, and run all linters.
 all: build build-docs lint test
 
 .PHONY: lint
-lint: black isort pydocstyle flake8 mypy pylint ## Run all linting checks.
+lint: black isort pydocstyle flake8 mypy pylint quick-lints  ## Run all linting checks.
+
+.PHONY: quick-lints
+quick-lints: sync-dev-requirements  ## Run miscellaneous linting tasks.
+	$(SOURCE_VENV) ./bin/quick-lints
 
 .PHONY: black
 black: sync-dev-requirements  ## Run black checks.
@@ -137,7 +142,7 @@ check-requirements: ## Check if requirements*.txt files are up-to-date.
 ### Bootstraps virtual environment for first use.
 $(VENV_ACTIVATE):
 	python3 -m pip install --user virtualenv
-	python3 -m virtualenv --python /pyenv/shims/python3.7 $(VENV)
+	python3 -m virtualenv --python /pyenv/shims/python$(PYTHON_VERSION) $(VENV)
 	$(PIP) install -U pip pip-tools
 
 .PHONY: check-cc
