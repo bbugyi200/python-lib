@@ -9,9 +9,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.10.0...HEAD)
+## [Unreleased](https://github.com/bbugyi200/python-lib/compare/0.11.0...HEAD)
 
 No notable changes have been made.
+
+
+## [0.11.0](https://github.com/bbugyi200/python-lib/compare/0.10.0...0.11.0) - 2021-12-20
+
+### Removed
+
+* **BREAKING CHANGE**: Sync with cc-python version `v2021.12.20` (drops Python3.7 support).
 
 
 ## [0.10.0](https://github.com/bbugyi200/python-lib/compare/0.9.0...0.10.0) - 2021-12-11
