@@ -3,10 +3,9 @@
 from functools import partial
 import os
 from pathlib import Path
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable, Dict, Literal, Tuple
 
 from .meta import deprecated, scriptname
-from .types import Literal
 
 
 XDG_Type = Literal["cache", "config", "data", "runtime"]
