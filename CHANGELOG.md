@@ -18,7 +18,7 @@ No notable changes have been made.
 
 ### Removed
 
-* **BREAKING CHANGE**: Sync with cc-python version `v2021.12.20` (drops Python3.7 support).
+* *BREAKING CHANGE*: Sync with cc-python version `v2021.12.20` (drops Python3.7 support).
 
 
 ## [0.10.0](https://github.com/bbugyi200/python-lib/compare/0.9.0...0.10.0) - 2021-12-11
