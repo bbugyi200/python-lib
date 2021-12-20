@@ -31,6 +31,7 @@ def literal_to_list(
     Convert a typing.Literal into a list.
 
     Examples:
+        >>> from typing import Literal
         >>> literal_to_list(Literal['a', 'b', 'c'])
         ['a', 'b', 'c']
 
